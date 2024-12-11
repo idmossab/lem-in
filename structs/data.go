@@ -1,4 +1,4 @@
-package functions
+package lemin
 
 var Paths [][]string
 
