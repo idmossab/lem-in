@@ -57,6 +57,18 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 			}
 			af.Rooms = append(af.Rooms, room)
 		} else if len(parts) == 1 && strings.Contains(parts[0], "-") {
+			if parts = strings.Split(line, "-"); len(parts) == 2 {
+				tunnel.From = parts[0]
+				tunnel.To = parts[1]
+				af.Tunnels = append(af.Tunnels, tunnel)
+				if tunnel.From == tunnel.To {
+					return err
+				}
+			} else {
+				return err
+			}
+		}else {
+			return err
 		}
 	}
 
