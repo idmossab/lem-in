@@ -37,6 +37,10 @@ func (af *structs.AntFarm) ReadFromInput(filename string)error{
 			if err !=nil{
 				return err
 			}
+		}else if len(parts)==3{
+
+		}else if len(parts)==1 && strings.Contains(parts[0], "-"){
+			
 		}
 	}
 
