@@ -46,6 +46,16 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 				return err
 			}
 			ValidateRoomUniqueness(af.Rooms,room)
+			if state == "start"{
+				CheckIsDouble(af.Start.Name, state)
+				af.Start = room
+				state = ""
+			} else if state == "end" {
+				CheckIsDouble(af.End.Name, state)
+				af.End = room
+				state = ""
+			}
+			af.Rooms = append(af.Rooms, room)
 		} else if len(parts) == 1 && strings.Contains(parts[0], "-") {
 		}
 	}
@@ -77,5 +87,12 @@ func ValidateRoomUniqueness(rooms []Room, room Room) {
 			fmt.Printf("ERROR: Duplicate coordinates detected for rooms '%s' and '%s'.\n", rooms[i].Name, room.Name)
 			os.Exit(1)
 		}
+	}
+}
+
+func CheckIsDouble(room, state string) {
+	if len(room) > 0 {
+		fmt.Printf("ERROR : room %s is double\n", state)
+		os.Exit(1)
 	}
 }
