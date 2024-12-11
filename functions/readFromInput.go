@@ -2,17 +2,20 @@ package lemin
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
-	structs "lemin/structs"
 	"os"
+	"strconv"
 	"strings"
 )
 
 
-func (af *structs.AntFarm) ReadFromInput(filename string)error{
+
+
+func (af *AntFarm) ReadFromInput(filename string)error{
 	var state string
-	var room structs.Room
-	var tunnel structs.Tunnel
+	var room Room
+	var tunnel *Tunnel
 	file,err:=os.Open(filename)
 	if err != nil {
 		return err
@@ -32,13 +35,17 @@ func (af *structs.AntFarm) ReadFromInput(filename string)error{
 			continue
 		}
 		parts:=strings.Fields(line)
-		if len(parts)==1 && i==0 {
-			_,err :=fmt.Sscanf(line,"%d",af.Ants)
-			if err !=nil{
-				return err
+		// Handle the first line (number of ants)
+		if len(parts) == 1 && i == 0 {
+			af.Ants, err = strconv.Atoi(parts[0])
+			if err != nil {
+				return fmt.Errorf("invalid number of ants: %v", err)
 			}
 		}else if len(parts)==3{
-
+			if len(parts[0])>0 && parts[0][0]=='L'{
+				return err
+			}
+			err = room.ParseRoom(parts)
 		}else if len(parts)==1 && strings.Contains(parts[0], "-"){
 			
 		}
@@ -47,3 +54,17 @@ func (af *structs.AntFarm) ReadFromInput(filename string)error{
 	return nil
 }
 
+func (rm *Room) ParseRoom(parts []string) error {
+	if len(parts)!=3{
+		return fmt.Errorf("invalide parts") 
+	}
+	rm.Name=parts[0]
+	x,errX:=strconv.Atoi(parts[1])
+	y,errY:=strconv.Atoi(parts[2])
+	if errX !=nil || errY !=nil{
+		return errX
+	}
+	rm.X=x
+	rm.Y=y
+	return nil
+}
