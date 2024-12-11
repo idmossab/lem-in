@@ -2,6 +2,7 @@ package lemin
 
 import (
 	"bufio"
+	"fmt"
 	structs "lemin/structs"
 	"os"
 	"strings"
@@ -24,16 +25,21 @@ func (af *structs.AntFarm) ReadFromInput(filename string)error{
 			if line=="##start"{
 				state="start"
 			}else if line == "##end"{
-				state=="end"
+				state="end"
 			}
 			continue
 		}else if line==""||strings.HasPrefix(line,"#"){
 			continue
 		}
 		parts:=strings.Fields(line)
-		if len(parts)==1 && i==0 && !strings.Contains(parts[0],"-")
+		if len(parts)==1 && i==0 {
+			_,err :=fmt.Sscanf(line,"%d",af.Ants)
+			if err !=nil{
+				return err
+			}
+		}
 	}
 
-
+	return nil
 }
 
