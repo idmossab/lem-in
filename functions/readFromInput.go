@@ -46,6 +46,10 @@ func (af *AntFarm) ReadFromInput(filename string)error{
 				return err
 			}
 			err = room.ParseRoom(parts)
+			if err!=nil{
+				return err
+			}
+			
 		}else if len(parts)==1 && strings.Contains(parts[0], "-"){
 			
 		}
