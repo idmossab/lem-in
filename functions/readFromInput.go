@@ -9,84 +9,109 @@ import (
 )
 
 func (af *AntFarm) ReadFromInput(filename string) error {
-	var state string
-	var room Room
-	var tunnel Tunnel
-	nbrstart:=0
-	nbrend:=0
+	var (
+		state   string
+		room    Room
+		tunnel  Tunnel
+		nbrStart, nbrEnd int
+	)
+	
 	file, err := os.Open(filename)
 	if err != nil {
-		return fmt.Errorf("error read file : %v", err)
+		return fmt.Errorf("failed to open file: %v", err)
 	}
 	defer file.Close()
+	
 	scanner := bufio.NewScanner(file)
 	for i := 0; scanner.Scan(); i++ {
 		line := strings.TrimSpace(scanner.Text())
-		if strings.HasPrefix(line, "##") {
+		
+		// Skip empty lines or comments
+		if line == "" || strings.HasPrefix(line, "#") {
 			if line == "##start" {
 				state = "start"
-				nbrstart++
+				nbrStart++
 			} else if line == "##end" {
 				state = "end"
-				nbrend++
+				nbrEnd++
 			}
 			continue
-		} else if line == "" || strings.HasPrefix(line, "#") {
-			continue
 		}
+		
 		parts := strings.Fields(line)
-		// Handle the first line (number of ants)
-		if len(parts) == 1 && i == 0 {
+		
+		switch {
+		// Handle number of ants
+		case len(parts) == 1 && i == 0:
 			af.Ants, err = strconv.Atoi(parts[0])
-			if err != nil {
+			if err != nil || af.Ants<1{
 				return fmt.Errorf("invalid number of ants: %v", err)
 			}
-		} else if len(parts) == 3 {
-			if len(parts[0]) > 0 && parts[0][0] == 'L' || parts[0][0] == 'l'{
-				return fmt.Errorf("dont enter first charachter L : %v", err)
+		
+		// Handle room 
+		case len(parts) == 3:
+			if strings.HasPrefix(strings.ToLower(parts[0]), "l") {
+				return fmt.Errorf("room name cannot start with 'L': %s", parts[0])
 			}
-			err = room.ParseRoom(parts)
-			if err != nil {
-				return fmt.Errorf("error to parseRoom : %v", err)
+			
+			if err := room.ParseRoom(parts); err != nil {
+				return fmt.Errorf("failed to parse room: %v", err)
 			}
-			ValidateRoomUniqueness(af.Rooms,room)
-			if state == "start"{
-				CheckIsDouble(af.Start.Name, state)
-				af.Start = room
-				state = ""
-			} else if state == "end" {
-				CheckIsDouble(af.End.Name, state)
-				af.End = room
-				state = ""
+			
+			if err := ValidateRoomUniqueness(af.Rooms, room); err != nil {
+				return fmt.Errorf("duplicate room: %v", err)
 			}
-			af.Rooms = append(af.Rooms, room)
-		} else if len(parts) == 1 && strings.Contains(parts[0], "-") {
-			if parts = strings.Split(line, "-"); len(parts) == 2 {
-				tunnel.From = parts[0]
-				tunnel.To = parts[1]
-				af.Tunnels = append(af.Tunnels, tunnel)
-				if tunnel.From == tunnel.To {
-					return fmt.Errorf("error to Pqrssing : %v", err)
+			
+			switch state {
+			case "start":
+				if af.Start != (Room{}) {
+					return fmt.Errorf("duplicate start room defined")
 				}
-			} else {
-				return fmt.Errorf("error to Parssing : %v", err)
+				af.Start = room
+			case "end":
+				if af.End != (Room{}) {
+					return fmt.Errorf("duplicate end room defined")
+				}
+				af.End = room
 			}
-		} else {
-			return fmt.Errorf("error to Parssing : %v", err)
+			state = ""
+			af.Rooms = append(af.Rooms, room)
+		
+		// Handle tunnel 
+		case len(parts) == 1 && strings.Contains(parts[0], "-"):
+			parts := strings.Split(parts[0], "-")
+			fmt.Println(parts)
+			fmt.Println(len(parts))
+			if len(parts) != 2 {
+				return fmt.Errorf("invalid tunnel format: %s", line)
+			}
+			tunnel = Tunnel{From: parts[0], To: parts[1]}
+			if tunnel.From == tunnel.To {
+				return fmt.Errorf("tunnel cannot connect a room to itself: %s", line)
+			}
+			af.Tunnels = append(af.Tunnels, tunnel)
+		
+		default:
+			return fmt.Errorf("invalid input format: %s", line)
 		}
 	}
-	if nbrend !=1 || nbrstart!=1{
-		return fmt.Errorf("error start or end: %v", err)
+	
+	if nbrStart != 1 {
+		return fmt.Errorf("there must be exactly one '##start' directive")
 	}
-	if (af.Start == Room{}) {
-		return fmt.Errorf("missing start room")
+	if nbrEnd != 1 {
+		return fmt.Errorf("there must be exactly one '##end' directive")
 	}
-	if (af.End == Room{}) {
-		return fmt.Errorf("missing end room")
+	if af.Start == (Room{}) {
+		return fmt.Errorf("missing start room definition")
 	}
-
+	if af.End == (Room{}) {
+		return fmt.Errorf("missing end room definition")
+	}
+	
 	return nil
 }
+
 
 func (rm *Room) ParseRoom(parts []string) error {
 	rm.Name = parts[0]
@@ -103,21 +128,13 @@ func (rm *Room) ParseRoom(parts []string) error {
 	return nil
 }
 
-func ValidateRoomUniqueness(rooms []Room, room Room) {
+func ValidateRoomUniqueness(rooms []Room, room Room) error {
 	for i := 0; i < len(rooms); i++ {
 		if rooms[i].Name == room.Name {
-			fmt.Printf("ERROR: Room %s is defined more than once.\n", rooms[i].Name)
-			os.Exit(1)
+			return fmt.Errorf("ERROR: Room %s is defined more than once", rooms[i].Name)
 		} else if rooms[i].X == room.X && rooms[i].Y == room.Y {
-			fmt.Printf("ERROR: Duplicate coordinates detected for rooms '%s' and '%s'.\n", rooms[i].Name, room.Name)
-			os.Exit(1)
+			return fmt.Errorf("ERROR: Duplicate coordinates detected for rooms '%s' and '%s'", rooms[i].Name, room.Name)
 		}
 	}
-}
-
-func CheckIsDouble(room, state string) {
-	if len(room) > 0 {
-		fmt.Printf("ERROR : room %s is double\n", state)
-		os.Exit(1)
-	}
+	return nil
 }
