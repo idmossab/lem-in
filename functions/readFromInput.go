@@ -42,7 +42,7 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 				return fmt.Errorf("invalid number of ants: %v", err)
 			}
 		} else if len(parts) == 3 {
-			if len(parts[0]) > 0 && parts[0][0] == 'L' {
+			if len(parts[0]) > 0 && parts[0][0] == 'L' && parts[0][0] == 'l'{
 				return fmt.Errorf("dont enter first charachter L : %v", err)
 			}
 			err = room.ParseRoom(parts)
