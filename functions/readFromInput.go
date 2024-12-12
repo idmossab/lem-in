@@ -10,22 +10,22 @@ import (
 
 func (af *AntFarm) ReadFromInput(filename string) error {
 	var (
-		state   string
-		room    Room
-		tunnel  Tunnel
+		state            string
+		room             Room
+		tunnel           Tunnel
 		nbrStart, nbrEnd int
 	)
-	
+
 	file, err := os.Open(filename)
 	if err != nil {
 		return fmt.Errorf("failed to open file: %v", err)
 	}
 	defer file.Close()
-	
+
 	scanner := bufio.NewScanner(file)
 	for i := 0; scanner.Scan(); i++ {
 		line := strings.TrimSpace(scanner.Text())
-		
+
 		// Skip empty lines or comments
 		if line == "" || strings.HasPrefix(line, "#") {
 			if line == "##start" {
@@ -37,31 +37,31 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 			}
 			continue
 		}
-		
+
 		parts := strings.Fields(line)
-		
+
 		switch {
 		// Handle number of ants
 		case len(parts) == 1 && i == 0:
 			af.Ants, err = strconv.Atoi(parts[0])
-			if err != nil || af.Ants<1{
+			if err != nil || af.Ants < 1 {
 				return fmt.Errorf("invalid number of ants: %v", err)
 			}
-		
-		// Handle room 
+
+		// Handle room
 		case len(parts) == 3:
 			if strings.HasPrefix(strings.ToLower(parts[0]), "l") {
 				return fmt.Errorf("room name cannot start with 'L': %s", parts[0])
 			}
-			
+
 			if err := room.ParseRoom(parts); err != nil {
 				return fmt.Errorf("failed to parse room: %v", err)
 			}
-			
+
 			if err := ValidateRoomUniqueness(af.Rooms, room); err != nil {
 				return fmt.Errorf("duplicate room: %v", err)
 			}
-			
+
 			switch state {
 			case "start":
 				if af.Start != (Room{}) {
@@ -76,26 +76,28 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 			}
 			state = ""
 			af.Rooms = append(af.Rooms, room)
-		
-		// Handle tunnel 
+
+		// Handle tunnel
+
 		case len(parts) == 1 && strings.Contains(parts[0], "-"):
 			parts := strings.Split(parts[0], "-")
-			fmt.Println(parts)
-			fmt.Println(len(parts))
-			if len(parts) != 2 {
+			if parts[0] == "" || parts[1] == "" {
 				return fmt.Errorf("invalid tunnel format: %s", line)
+			}
+			if len(parts) != 2 {
+				return fmt.Errorf("invalid tunnel format not equal 2: %s", line)
 			}
 			tunnel = Tunnel{From: parts[0], To: parts[1]}
 			if tunnel.From == tunnel.To {
 				return fmt.Errorf("tunnel cannot connect a room to itself: %s", line)
 			}
 			af.Tunnels = append(af.Tunnels, tunnel)
-		
+
 		default:
 			return fmt.Errorf("invalid input format: %s", line)
 		}
 	}
-	
+
 	if nbrStart != 1 {
 		return fmt.Errorf("there must be exactly one '##start' directive")
 	}
@@ -108,10 +110,9 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 	if af.End == (Room{}) {
 		return fmt.Errorf("missing end room definition")
 	}
-	
+
 	return nil
 }
-
 
 func (rm *Room) ParseRoom(parts []string) error {
 	rm.Name = parts[0]
