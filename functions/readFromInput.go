@@ -78,6 +78,12 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 	if nbrend !=1 || nbrstart!=1{
 		return fmt.Errorf("error start or end: %v", err)
 	}
+	if (af.Start == Room{}) {
+		return fmt.Errorf("missing start room")
+	}
+	if (af.End == Room{}) {
+		return fmt.Errorf("missing end room")
+	}
 
 	return nil
 }
