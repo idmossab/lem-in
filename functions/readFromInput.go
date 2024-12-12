@@ -12,6 +12,8 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 	var state string
 	var room Room
 	var tunnel Tunnel
+	nbrstart:=0
+	nbrend:=0
 	file, err := os.Open(filename)
 	if err != nil {
 		return fmt.Errorf("error read file : %v", err)
@@ -23,8 +25,10 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 		if strings.HasPrefix(line, "##") {
 			if line == "##start" {
 				state = "start"
+				nbrstart++
 			} else if line == "##end" {
 				state = "end"
+				nbrend++
 			}
 			continue
 		} else if line == "" || strings.HasPrefix(line, "#") {
@@ -70,6 +74,9 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 		} else {
 			return fmt.Errorf("error to Parssing : %v", err)
 		}
+	}
+	if nbrend !=1 || nbrstart!=1{
+		return fmt.Errorf("error start or end: %v", err)
 	}
 
 	return nil
