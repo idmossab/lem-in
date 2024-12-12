@@ -14,7 +14,7 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 	var tunnel Tunnel
 	file, err := os.Open(filename)
 	if err != nil {
-		return err
+		return fmt.Errorf("error read file : %v", err)
 	}
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
@@ -39,11 +39,11 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 			}
 		} else if len(parts) == 3 {
 			if len(parts[0]) > 0 && parts[0][0] == 'L' {
-				return err
+				return fmt.Errorf("dont enter first charachter L : %v", err)
 			}
 			err = room.ParseRoom(parts)
 			if err != nil {
-				return err
+				return fmt.Errorf("error to parseRoom : %v", err)
 			}
 			ValidateRoomUniqueness(af.Rooms,room)
 			if state == "start"{
@@ -62,13 +62,13 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 				tunnel.To = parts[1]
 				af.Tunnels = append(af.Tunnels, tunnel)
 				if tunnel.From == tunnel.To {
-					return err
+					return fmt.Errorf("error to Pqrssing : %v", err)
 				}
 			} else {
-				return err
+				return fmt.Errorf("error to Parssing : %v", err)
 			}
-		}else {
-			return err
+		} else {
+			return fmt.Errorf("error to Parssing : %v", err)
 		}
 	}
 
@@ -76,14 +76,14 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 }
 
 func (rm *Room) ParseRoom(parts []string) error {
-	if len(parts) != 3 {
-		return fmt.Errorf("invalide parts")
-	}
 	rm.Name = parts[0]
 	x, errX := strconv.Atoi(parts[1])
 	y, errY := strconv.Atoi(parts[2])
-	if errX != nil || errY != nil {
-		return errX
+	if errX != nil {
+		return fmt.Errorf("invalid number errX: %v", errX)
+	}
+	if errY != nil {
+		return fmt.Errorf("invalid number errY: %v", errY)
 	}
 	rm.X = x
 	rm.Y = y
