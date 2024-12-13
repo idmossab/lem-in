@@ -1,6 +1,6 @@
 package lemin
 
-func  GetPaths(af []Tunnel, Start string, End string, path []string) {
+func  GetPaths(tunnels []Tunnel, Start string, End string, path []string) {
 	var paths = &Paths
 	path = append(path, Start)
 	if Start == End {
@@ -9,11 +9,11 @@ func  GetPaths(af []Tunnel, Start string, End string, path []string) {
 		*paths = append(*paths, cpy)
 		return
 	}
-	for _, tunnel := range af {
+	for _, tunnel := range tunnels {
 		if Start == tunnel.From && !Contains(path, tunnel.To) {
-			GetPaths(af, tunnel.To, End, path,)
+			GetPaths(tunnels, tunnel.To, End, path,)
 		} else if Start == tunnel.To && !Contains(path, tunnel.From) {
-			GetPaths(af, tunnel.From, End, path)
+			GetPaths(tunnels, tunnel.From, End, path)
 		}
 	}
 }
