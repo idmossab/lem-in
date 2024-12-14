@@ -17,6 +17,8 @@ func main() {
 	}
 	sr.GetPaths(antFarm.Tunnels, antFarm.Start.Name, antFarm.End.Name, path)
 	fmt.Println(sr.Paths)
-	fmt.Println(sr.Paths)
+	best,all:=sr.BestPaths(sr.Paths)
+	fmt.Println(best)
+	fmt.Println(all)
 	fmt.Println("AntFarm successfully parsed!")
 }

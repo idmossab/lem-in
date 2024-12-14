@@ -4,9 +4,9 @@ func  GetPaths(tunnels []Tunnel, Start string, End string, path []string) {
 	var paths = &Paths
 	path = append(path, Start)
 	if Start == End {
-		// cpy := make([]string, len(path))
-		// copy(cpy, path)
-		*paths = append(*paths, path)
+		 cpy := make([]string, len(path))
+		 copy(cpy, path)
+		*paths = append(*paths, cpy)
 		return
 	}
 	for _, tunnel := range tunnels {
