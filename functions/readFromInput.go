@@ -13,7 +13,6 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 		state            string
 		room             Room
 		tunnel           Tunnel
-		nbrStart, nbrEnd int
 	)
 
 	file, err := os.Open(filename)
@@ -30,10 +29,8 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 		if line == "" || strings.HasPrefix(line, "#") {
 			if line == "##start" {
 				state = "start"
-				nbrStart++
 			} else if line == "##end" {
 				state = "end"
-				nbrEnd++
 			}
 			continue
 		}
@@ -98,12 +95,6 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 		}
 	}
 
-	/*if nbrStart != 1 {
-		return fmt.Errorf("there must be exactly one '##start' directive")
-	}
-	if nbrEnd != 1 {
-		return fmt.Errorf("there must be exactly one '##end' directive")
-	}*/
 	if af.Start == (Room{}) {
 		return fmt.Errorf("missing start room definition")
 	}
