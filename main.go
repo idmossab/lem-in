@@ -17,5 +17,7 @@ func main() {
 	}
 	sr.GetPaths(antFarm.Tunnels, antFarm.Start.Name, antFarm.End.Name, path)
 	fmt.Println(sr.Paths)
+	sr.FilterShortestPathsWithDuplicates(sr.Paths)
+	fmt.Println(sr.Paths)
 	fmt.Println("AntFarm successfully parsed!")
 }

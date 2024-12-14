@@ -50,7 +50,7 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 
 		// Handle room
 		case len(parts) == 3:
-			if strings.HasPrefix(strings.ToLower(parts[0]), "l") {
+			if strings.HasPrefix(parts[0], "L") {
 				return fmt.Errorf("room name cannot start with 'L': %s", parts[0])
 			}
 
@@ -98,12 +98,12 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 		}
 	}
 
-	if nbrStart != 1 {
+	/*if nbrStart != 1 {
 		return fmt.Errorf("there must be exactly one '##start' directive")
 	}
 	if nbrEnd != 1 {
 		return fmt.Errorf("there must be exactly one '##end' directive")
-	}
+	}*/
 	if af.Start == (Room{}) {
 		return fmt.Errorf("missing start room definition")
 	}
