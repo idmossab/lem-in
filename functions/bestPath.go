@@ -1,37 +1,42 @@
 package lemin
 
-func BestPaths(paths [][]string) ([][]string, [][]string) {
-	BestPaths := [][]string{}
-	AllPaths := paths
+import "sort"
 
-	// Map to store the shortest path to each destination
-	bestPathsMap := make(map[string][]string)
+// Fonction BestPaths
+func BestPaths(paths [][]string) ([][]string, [][]string) {
+	bestPaths := [][]string{}
+
+	// Stocker les nœuds intermédiaires déjà utilisés pour éviter les répétitions
+	seen := make(map[string]bool)
 
 	for _, path := range paths {
-		// Extract the destination (last element in the path)
-		destination := path[len(path)-1]
+		unique := true
 
-		// Check if the destination is already in the map
-		if bestPath, exists := bestPathsMap[destination]; exists {
-			// If the current path is shorter, replace it
-			if len(path) < len(bestPath) {
-				bestPathsMap[destination] = path
+		// Vérifier les nœuds intermédiaires (exclure le premier et le dernier)
+		for i := 1; i < len(path)-1; i++ {
+			if seen[path[i]] { // Si le nœud est déjà utilisé dans un autre chemin
+				unique = false
+				break
 			}
-		} else {
-			// If destination is not in the map, add it
-			bestPathsMap[destination] = path
+		}
+
+		if unique {
+			// Ajouter les nœuds intermédiaires du chemin à `seen`
+			for i := 1; i < len(path)-1; i++ {
+				seen[path[i]] = true
+			}
+
+			// Ajouter ce chemin à la liste des meilleurs chemins
+			bestPaths = append(bestPaths, path)
 		}
 	}
 
-	// Collect the best paths from the map
-	for _, path := range bestPathsMap {
-		BestPaths = append(BestPaths, path)
-	}
-
-	return BestPaths, AllPaths
+	return bestPaths, paths
 }
 
-
-
-//[[0 5 8 1 2] [0 5 8 2] [0 8 1 2] [0 8 2]]
-//[[0 5 8 2] [0 8 2]]
+func SortByLength(slices [][]string) [][]string {
+	sort.Slice(slices, func(i, j int) bool {
+		return len(slices[i]) < len(slices[j]) // Sort in ascending order by length
+	})
+	return slices
+}
