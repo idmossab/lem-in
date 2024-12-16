@@ -2,31 +2,29 @@ package lemin
 
 import "sort"
 
-// Fonction BestPaths
-func BestPaths(paths [][]string) ([][]string, [][]string) {
-	bestPaths := [][]string{}
 
-	// Stocker les nœuds intermédiaires déjà utilisés pour éviter les répétitions
+func BestPaths(paths [][]string) ([][]string, [][]string) {
+	bestPaths := [][]string{} 
+
 	seen := make(map[string]bool)
 
 	for _, path := range paths {
-		unique := true
+		unique := true 
 
-		// Vérifier les nœuds intermédiaires (exclure le premier et le dernier)
 		for i := 1; i < len(path)-1; i++ {
-			if seen[path[i]] { // Si le nœud est déjà utilisé dans un autre chemin
+			if seen[path[i]] { // If an intermediate room is already used in another path
 				unique = false
-				break
+				break 
 			}
 		}
 
+		// If the path has unique intermediate room
 		if unique {
-			// Ajouter les nœuds intermédiaires du chemin à `seen`
+			// Mark the intermediate nodes of this path as seen
 			for i := 1; i < len(path)-1; i++ {
 				seen[path[i]] = true
 			}
 
-			// Ajouter ce chemin à la liste des meilleurs chemins
 			bestPaths = append(bestPaths, path)
 		}
 	}
@@ -36,7 +34,7 @@ func BestPaths(paths [][]string) ([][]string, [][]string) {
 
 func SortByLength(slices [][]string) [][]string {
 	sort.Slice(slices, func(i, j int) bool {
-		return len(slices[i]) < len(slices[j]) // Sort in ascending order by length
+		return len(slices[i]) < len(slices[j]) 
 	})
-	return slices
+	return slices 
 }
