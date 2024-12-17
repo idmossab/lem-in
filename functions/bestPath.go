@@ -34,10 +34,15 @@ func BestPaths(paths [][]string) ([][]string, [][]string) {
 
 	return bestPaths, paths
 }
+var(
+	Uniquepath = [][]string{}
+	Anotherpaths = [][]string{}
+	Oneroom = [][]string{}
+	Multiroom = [][]string{}
 
+)
 func UniquePaths(paths [][]string) ([][]string, [][]string) {
-	uniquePaths := [][]string{}
-	anotherPaths := [][]string{}
+	
 	
 	fmt.Println("All paths :", paths)
 
@@ -58,13 +63,17 @@ func UniquePaths(paths [][]string) ([][]string, [][]string) {
 		}
 
 		if unique {
-			uniquePaths = append(uniquePaths, path)
+			Uniquepath = append(Uniquepath, path)
 		} else {
-			anotherPaths = append(anotherPaths, path)
+			Anotherpaths = append(Anotherpaths, path)
 		}
 	}
+	return Uniquepath, Anotherpaths
+}
 
-	return uniquePaths, anotherPaths
+func OneRoom(paths [][]string) ([][]string, [][]string) {
+
+	return Oneroom, Multiroom
 }
 
 func SortByLength(slices [][]string) [][]string {
