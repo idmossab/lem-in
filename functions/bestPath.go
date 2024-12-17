@@ -38,28 +38,23 @@ func BestPaths(paths [][]string) ([][]string, [][]string) {
 func UniquePaths(paths [][]string) ([][]string, [][]string) {
 	uniquePaths := [][]string{}
 	anotherPaths := [][]string{}
-	// seen := make(map[string]bool)
-
+	
 	fmt.Println("All paths :", paths)
 
 	for k, path := range paths {
 		unique := true
-
+		count := 0
 		for i := 1; i < len(path)-1; i++ {
 			for j := 0; j < len(paths); j++ {
 				if k == j {
 					continue
 				}
 				if slices.Contains(paths[j], path[i]) {
+					count++
 					unique = false
 					break
 				}
 			}
-
-			// if seen[path[i]] {
-			// 	unique = false
-			// 	break
-			// }
 		}
 
 		if unique {
@@ -67,15 +62,6 @@ func UniquePaths(paths [][]string) ([][]string, [][]string) {
 		} else {
 			anotherPaths = append(anotherPaths, path)
 		}
-
-		// if unique {
-		// 	for i := 1; i < len(path)-1; i++ {
-		// 		seen[path[i]] = true
-		// 	}
-		// 	uniquePaths = append(uniquePaths, path)
-		// } else {
-		// 	anotherPaths = append(anotherPaths, path)
-		// }
 	}
 
 	return uniquePaths, anotherPaths
