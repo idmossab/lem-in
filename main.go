@@ -20,6 +20,9 @@ func main() {
 	best,all:=sr.BestPaths(sr.SortByLength(sr.Paths))
 	fmt.Println(best)
 	fmt.Println(all)
+	unique,anothre:=sr.UniquePaths(sr.SortByLength(sr.Paths))
+	fmt.Println(unique)
+	fmt.Println(anothre)
 	fmt.Println()
 	fmt.Println("AntFarm successfully parsed!")
 }

@@ -32,6 +32,34 @@ func BestPaths(paths [][]string) ([][]string, [][]string) {
 	return bestPaths, paths
 }
 
+func UniquePaths(paths [][]string) ([][]string, [][]string) {
+	uniquePaths := [][]string{}
+	anotherPaths := [][]string{}
+	seen := make(map[string]bool)
+
+	for _, path := range paths {
+		unique := true
+
+		for i := 1; i < len(path)-1; i++ {
+			if seen[path[i]] {
+				unique = false
+				break
+			}
+		}
+
+		if unique {
+			for i := 1; i < len(path)-1; i++ {
+				seen[path[i]] = true
+			}
+			uniquePaths = append(uniquePaths, path)
+		} else {
+			anotherPaths = append(anotherPaths, path)
+		}
+	}
+
+	return uniquePaths, anotherPaths
+}
+
 func SortByLength(slices [][]string) [][]string {
 	sort.Slice(slices, func(i, j int) bool {
 		return len(slices[i]) < len(slices[j]) 
