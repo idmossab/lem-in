@@ -44,7 +44,7 @@ var(
 func UniquePaths(paths [][]string) ([][]string, [][]string) {
 	
 	
-	fmt.Println("All paths :", paths)
+	fmt.Println("All paths :", SortByLength(paths))
 
 	for k, path := range paths {
 		unique := true
