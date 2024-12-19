@@ -1,6 +1,9 @@
 package lemin
 
-import "slices"
+import (
+	"reflect"
+	"slices"
+)
 
 // Function to group paths into compatible groups
 func GroupPaths(paths [][]string) [][][]string {
@@ -29,7 +32,9 @@ func GroupPaths(paths [][]string) [][][]string {
 		}
 
 		// Append the formed group to the list of groups
-		groups = append(groups, currentGroup)
+		if !groupExists(groups, currentGroup) {
+			groups = append(groups, currentGroup)
+		}
 
 		used = map[int]bool{}
 	}
@@ -48,7 +53,7 @@ func isCompatible(group [][]string, path []string) bool {
 	return true
 }
 
-// Check if two paths share intermediate nodes (excluding "start" and "end")
+// Check if two paths share room (excluding "start" and "end")
 func hasCommonIntermediateNodes(path1, path2 []string) bool {
 	nodes1 := path1[1 : len(path1)-1] // Exclude "start" and "end"
 	nodes2 := path2[1 : len(path2)-1] // Exclude "start" and "end"
@@ -56,6 +61,16 @@ func hasCommonIntermediateNodes(path1, path2 []string) bool {
 	for _, node := range nodes1 {
 		if slices.Contains(nodes2, node) {
 			return true // Common intermediate node found
+		}
+	}
+	return false
+}
+
+// Check if a group already exists in the final groups
+func groupExists(groups [][][]string, newGroup [][]string) bool {
+	for _, group := range groups {
+		if reflect.DeepEqual(group, newGroup) {
+			return true
 		}
 	}
 	return false
