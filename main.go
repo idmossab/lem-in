@@ -23,6 +23,8 @@ func main() {
 	unique,anothre:=sr.UniquePaths(sr.SortByLength(sr.Paths))
 	fmt.Println("Unique paths :",unique)
 	fmt.Println("Another paths :",anothre)
-	//fmt.Println()
+	fmt.Println()
+	groupe:=sr.GroupPaths(sr.SortByLength(sr.Paths))
+	fmt.Println("groupe",groupe)
 	fmt.Println("AntFarm successfully parsed!")
 }
