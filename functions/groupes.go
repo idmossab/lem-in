@@ -1,7 +1,6 @@
 package lemin
 
 import (
-	"reflect"
 	"slices"
 )
 
@@ -31,12 +30,11 @@ func GroupPaths(paths [][]string) [][][]string {
 			}
 		}
 
-		// Append the formed group to the list of groups
+		// Append the formed group to the list of groups if it's unique
 		if !groupExists(groups, currentGroup) {
 			groups = append(groups, currentGroup)
 		}
-
-		used = map[int]bool{}
+		used=map[int]bool{}
 	}
 
 	return groups
@@ -69,9 +67,32 @@ func hasCommonIntermediateNodes(path1, path2 []string) bool {
 // Check if a group already exists in the final groups
 func groupExists(groups [][][]string, newGroup [][]string) bool {
 	for _, group := range groups {
-		if reflect.DeepEqual(group, newGroup) {
+		if areGroupsEqual(group, newGroup) {
 			return true
 		}
 	}
 	return false
+}
+
+// Helper to compare groups for equality
+func areGroupsEqual(group1, group2 [][]string) bool {
+	if len(group1) != len(group2) {
+		return false
+	}
+
+	// Ensure all paths in one group are present in the other
+	for _, path1 := range group1 {
+		found := false
+		for _, path2 := range group2 {
+			if slices.Equal(path1, path2) {
+				found = true
+				break
+			}
+		}
+		if !found {
+			return false
+		}
+	}
+
+	return true
 }
