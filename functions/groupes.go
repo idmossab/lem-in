@@ -6,15 +6,15 @@ import (
 
 // Function to group paths into compatible groups
 func GroupPaths(paths [][]string) [][][]string {
-	var groups [][][]string    
-	used := make(map[int]bool) 
+	var groups [][][]string
+	used := make(map[int]bool)
 
 	for i, path := range paths {
 		if used[i] {
 			continue // Skip already grouped paths
 		}
 
-		currentGroup := [][]string{path} 
+		currentGroup := [][]string{path}
 		used[i] = true
 
 		for j, otherPath := range paths {
@@ -31,7 +31,7 @@ func GroupPaths(paths [][]string) [][][]string {
 		if !groupExists(groups, currentGroup) {
 			groups = append(groups, currentGroup)
 		}
-		used=map[int]bool{}
+		used = map[int]bool{}
 	}
 
 	return groups
@@ -49,12 +49,12 @@ func isCompatible(group [][]string, path []string) bool {
 
 // Check if two paths share room (excluding "start" and "end")
 func hasCommonRooms(path1, path2 []string) bool {
-	nodes1 := path1[1 : len(path1)-1] 
+	nodes1 := path1[1 : len(path1)-1]
 	nodes2 := path2[1 : len(path2)-1]
 
 	for _, node := range nodes1 {
 		if slices.Contains(nodes2, node) {
-			return true 
+			return true
 		}
 	}
 	return false

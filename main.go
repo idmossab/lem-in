@@ -27,5 +27,7 @@ func main() {
 	fmt.Println()
 	groupe:=sr.GroupPaths(sr.SortByLength(sr.Paths))
 	fmt.Println("groupe",groupe)
+	nbrAnt:=antFarm.Ants
+	fmt.Println(nbrAnt)
 	fmt.Println("AntFarm successfully parsed!")
 }
