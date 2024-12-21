@@ -16,18 +16,13 @@ func main() {
 		return
 	}
 	sr.GetPaths(antFarm.Tunnels, antFarm.Start.Name, antFarm.End.Name, path)
-	//fmt.Println(sr.Paths)
-	//best,all:=sr.BestPaths(sr.SortByLength(sr.Paths))
-	//fmt.Println(best)
-	//fmt.Println(all)
-	//unique,anothre:=sr.UniquePaths(sr.SortByLength(sr.Paths))
-	//fmt.Println("Unique paths :",unique)
-	//fmt.Println("Another paths :",anothre)
+	
 	fmt.Println("All paths :", sr.SortByLength(sr.Paths))
 	fmt.Println()
 	groupe:=sr.GroupPaths(sr.SortByLength(sr.Paths))
 	fmt.Println("groupe",groupe)
 	nbrAnt:=antFarm.Ants
 	fmt.Println(nbrAnt)
+	sr.SendAnt(groupe,nbrAnt)
 	fmt.Println("AntFarm successfully parsed!")
 }
