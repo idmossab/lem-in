@@ -29,9 +29,3 @@ a2-a3
 a3-a4
 a4-a5
 a5-end
-
- [
-    [[start c1 c2 end] [start a1 a2 a3 a4 a5 end]]
-     [[start c1 d1 d2 end] [start b1 b2 c2 end] [start a1 a2 a3 a4 a5 end]]
-      [[start b1 b2 c2 c1 d1 d2 end] [start a1 a2 a3 a4 a5 end]]
- ]

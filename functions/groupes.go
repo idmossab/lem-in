@@ -6,8 +6,8 @@ import (
 
 // Function to group paths into compatible groups
 func GroupPaths(paths [][]string) [][][]string {
-	var groups [][][]string    // Final groups of paths
-	used := make(map[int]bool) // Tracks used paths by index
+	var groups [][][]string    
+	used := make(map[int]bool) 
 
 	for i, path := range paths {
 		if used[i] {
