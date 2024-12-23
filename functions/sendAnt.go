@@ -34,5 +34,33 @@ func SendAnt(groups [][][]string, ants int) ([][]string,[]int) {
 }
 
 func PrintAnt(finalPath [][]string, path []int) {
- 
+	// Fixed number of ants
+	antNum := 1
+
+	// Determine the maximum length of any path
+	maxLength := 0
+	for i := 0; i < len(finalPath); i++ {
+		if len(finalPath[i]) > maxLength {
+			maxLength = len(finalPath[i])
+		}
+	}
+
+	// Iterate through each step
+	for step := 0; step < maxLength; step++ {
+		// Loop through the paths and print the corresponding ants
+		for i := 0; i < len(path); i++ {
+			// Only print if the path has remaining steps and the step is within bounds
+			if path[i] > 0 && step < len(finalPath[i]) {
+				// Print the ant number and the room it's moving to
+				fmt.Printf("L%d-%s ", antNum, finalPath[i][step])
+				antNum++
+
+				// Reset antNum to 1 after the third ant
+				if antNum > 3 {
+					antNum = 1
+				}
+			}
+		}
+		fmt.Println()
+	}
 }
