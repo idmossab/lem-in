@@ -2,9 +2,10 @@ package lemin
 
 import "fmt"
 
+
 func SendAnt(groups [][][]string, ants int) {
     bestGroup := groups[0]
-    lenbestGroup := make([]int, len(bestGroup))
+    antInPath := make([]int, len(bestGroup))
     pathLengths := make([]int, len(bestGroup))
 
     // Calculate the length of each path
@@ -12,24 +13,21 @@ func SendAnt(groups [][][]string, ants int) {
         pathLengths[i] = len(path)
     }
 
-    // Distribute ants, prioritizing shorter paths
     for ants > 0 {
         shortestPath := 0
 
-        // Find the shortest path in terms of the current load
-        for i := 1; i < len(lenbestGroup); i++ {
-            if lenbestGroup[i]+pathLengths[i] < lenbestGroup[shortestPath]+pathLengths[shortestPath] {
+        for i := 1; i < len(antInPath); i++ {
+            if antInPath[i]+pathLengths[i] < antInPath[shortestPath]+pathLengths[shortestPath] {
                 shortestPath = i
             }
         }
 
-        // Assign an ant to the shortest path
-        lenbestGroup[shortestPath]++
+        antInPath[shortestPath]++
         ants--
     }
 
     // Print the result
-    for i, count := range lenbestGroup {
+    for i, count := range antInPath {
         fmt.Printf("Path %d: %d ants\n", i+1, count)
     }
 }
