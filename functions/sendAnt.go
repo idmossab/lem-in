@@ -3,7 +3,7 @@ package lemin
 import "fmt"
 
 
-func SendAnt(groups [][][]string, ants int) {
+func SendAnt(groups [][][]string, ants int) ([][]string,[]int) {
     bestGroup := groups[0]
     antInPath := make([]int, len(bestGroup))
     pathLengths := make([]int, len(bestGroup))
@@ -30,4 +30,9 @@ func SendAnt(groups [][][]string, ants int) {
     for i, count := range antInPath {
         fmt.Printf("Path %d: %d ants\n", i+1, count)
     }
+	return bestGroup,antInPath
+}
+
+func PrintAnt(finalPath [][]string, path []int) {
+ 
 }

@@ -23,6 +23,7 @@ func main() {
 	fmt.Println("groupe",groupe)
 	nbrAnt:=antFarm.Ants
 	fmt.Println(nbrAnt)
-	sr.SendAnt(groupe,nbrAnt)
+	groupe1,nbrant:=sr.SendAnt(groupe,nbrAnt)
+	sr.PrintAnt(groupe1,nbrant)
 	fmt.Println("AntFarm successfully parsed!")
 }
