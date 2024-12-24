@@ -34,15 +34,15 @@ func SendAnt(groups [][][]string, ants int) ([][]string, []int) {
 
 func PrintAnt(finalPaths [][]string, path []int) {
 	type AntPosition struct {
-		ant  int
-		path int
-		step int
+		antID, pathIndex, step int
 	}
 
-	var antPositions []AntPosition
-	var finalResult string
+	var (
+		antPositions []AntPosition
+		finalResult  string
+	)
 
-	// Initialize ant positions
+	// Initialize ant positions based on their counts in each path
 	antID := 1
 	for pathIndex, antCount := range path {
 		for i := 0; i < antCount; i++ {
@@ -53,28 +53,32 @@ func PrintAnt(finalPaths [][]string, path []int) {
 
 	// Simulate ant movements
 	for len(antPositions) > 0 {
-		var moves []string
-		var newPositions []AntPosition
-		usedLinks := make(map[string]bool)
+		var (
+			moves       []string
+			newPositions []AntPosition
+			usedLinks    = make(map[string]bool)
+		)
 
-		for _, pos := range antPositions {
-			if pos.step < len(finalPaths[pos.path])-1 {
-				currentRoom := finalPaths[pos.path][pos.step]
-				nextRoom := finalPaths[pos.path][pos.step+1]
+		for _, ant := range antPositions {
+			currentPath := finalPaths[ant.pathIndex]
+
+			// Check if the ant can move to the next room
+			if ant.step < len(currentPath)-1 {
+				currentRoom, nextRoom := currentPath[ant.step], currentPath[ant.step+1]
 				link := currentRoom + "-" + nextRoom
+
 				if !usedLinks[link] {
-					moves = append(moves, fmt.Sprintf("L%d-%s", pos.ant, nextRoom))
-					newPositions = append(newPositions, AntPosition{pos.ant, pos.path, pos.step + 1})
+					moves = append(moves, fmt.Sprintf("L%d-%s", ant.antID, nextRoom))
+					newPositions = append(newPositions, AntPosition{ant.antID, ant.pathIndex, ant.step + 1})
 					usedLinks[link] = true
 				} else {
-					newPositions = append(newPositions, pos)
+					newPositions = append(newPositions, ant)
 				}
 			}
 		}
 
 		if len(moves) > 0 {
-			finalResult += strings.Join(moves, " ")
-			finalResult += "\n"
+			finalResult += strings.Join(moves, " ") + "\n"
 		}
 
 		antPositions = newPositions
