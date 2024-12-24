@@ -10,9 +10,9 @@ import (
 
 func (af *AntFarm) ReadFromInput(filename string) error {
 	var (
-		state            string
-		room             Room
-		tunnel           Tunnel
+		state  string
+		room   Room
+		tunnel Tunnel
 	)
 
 	file, err := os.Open(filename)
@@ -101,6 +101,7 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 	if af.End == (Room{}) {
 		return fmt.Errorf("missing end room definition")
 	}
+	// Validate tunnels
 	for _, tunl := range af.Tunnels {
 		if !isRoomDeclared(af.Rooms, tunl.From) || !isRoomDeclared(af.Rooms, tunl.To) {
 			return fmt.Errorf("room in tunnel '%s-%s' is not declared", tunl.From, tunl.To)
@@ -134,6 +135,7 @@ func ValidateRoomUniqueness(rooms []Room, room Room) error {
 	}
 	return nil
 }
+
 func isRoomDeclared(rooms []Room, name string) bool {
 	for _, room := range rooms {
 		if room.Name == name {

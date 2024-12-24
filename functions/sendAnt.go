@@ -6,7 +6,6 @@ import (
 )
 
 func SendAnt(groups [][][]string, ants int) ([][]string, []int) {
-	// Select the best group of paths (assuming it's the first group)
 	bestGroup := groups[0]
 	antInPath := make([]int, len(bestGroup))
 	pathLengths := make([]int, len(bestGroup))
