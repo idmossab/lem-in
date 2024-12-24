@@ -41,7 +41,7 @@ func (af *AntFarm) ReadFromInput(filename string) error {
 		// Handle number of ants
 		case len(parts) == 1 && i == 0:
 			af.Ants, err = strconv.Atoi(parts[0])
-			if err != nil || af.Ants < 1 {
+			if err != nil || af.Ants < 1 || af.Ants > 10000 {
 				return fmt.Errorf("invalid number of ants: %v", err)
 			}
 

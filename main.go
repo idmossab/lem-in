@@ -16,14 +16,16 @@ func main() {
 		return
 	}
 	sr.GetPaths(antFarm.Tunnels, antFarm.Start.Name, antFarm.End.Name, path)
-	
-	fmt.Println("All paths :", sr.SortByLength(sr.Paths))
+
+	// fmt.Println("All paths :", sr.SortByLength(sr.Paths))
 	fmt.Println()
-	groupe:=sr.GroupPaths(sr.SortByLength(sr.Paths))
-	fmt.Println("groupe",groupe)
-	nbrAnt:=antFarm.Ants
+	groupe := sr.GroupPaths(sr.SortByLength(sr.Paths))
+	fmt.Println("groupe", groupe)
+	nbrAnt := antFarm.Ants
 	fmt.Println(nbrAnt)
-	groupe1,nbrant:=sr.SendAnt(groupe,nbrAnt)
-	sr.PrintAnt(groupe1,nbrant)
+	antDistribution := sr.DistributeAnts(groupe, nbrAnt)
+	finalResult := sr.SimulateAntMovement(groupe, antDistribution)
+
+	fmt.Println(finalResult)
 	fmt.Println("AntFarm successfully parsed!")
 }
