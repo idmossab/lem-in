@@ -21,12 +21,16 @@ func main() {
 	fmt.Println()
 	groupe := sr.GroupPaths(sr.SortByLength(sr.Paths))
 	fmt.Println("groupe", groupe)
-	nbrAnt := antFarm.Ants
-	fmt.Println(nbrAnt)
-	//antDistribution := sr.DistributeAnts(groupe, nbrAnt)
-	//finalResult := sr.SimulateAntMovement(groupe, antDistribution)
-	antDistribution,ant := sr.SendAnt(groupe, nbrAnt)
+	fmt.Println()
+	filterGr := sr.FilterShortestSlices(groupe)
+	fmt.Println("filter :", filterGr)
+	// nbrAnt := antFarm.Ants
+	// fmt.Println(nbrAnt)
+	// antDistribution := sr.DistributeAnts(groupe, nbrAnt)
+	// finalResult := sr.SimulateAntMovement(groupe, antDistribution)
+	// antDistribution,ant := sr.SendAnt(groupe, nbrAnt)
 
-	sr.PrintAnt(antDistribution,ant)
+	// sr.PrintAnt(antDistribution,ant)
 	fmt.Println("AntFarm successfully parsed!")
 }
+
