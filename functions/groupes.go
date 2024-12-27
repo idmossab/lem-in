@@ -92,10 +92,10 @@ func areGroupsEqual(group1, group2 [][]string) bool {
 
 	return true
 }
-
 func SortByLength(slices [][]string) [][]string {
 	sort.Slice(slices, func(i, j int) bool {
 		return len(slices[i]) < len(slices[j])
 	})
 	return slices
 }
+

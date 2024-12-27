@@ -1,24 +1,40 @@
 package lemin
 
-import "sort"
+import (
+	"slices"
+	"sort"
+)
+func FilterShortestSlices(groupes [][][]string) [][][]string {
+	sort.Slice(groupes, func(i, j int) bool {
+		return len(groupes[i]) < len(groupes[j])
+	})
 
-func FilterShortestSlices(data [][][]string) [][][]string {
 	result := [][][]string{}
+	shortPath := [][]string{}
 
-	for _, group := range data {
-		if len(group) == 0 {
-			continue
+	for _, groupe := range groupes {
+		for i := 0; i < len(groupe)-1; i++ {
+			if len(groupe[i]) == len(groupe[i+1]) {
+				if !containsSlice(shortPath, groupe[i]) {
+					shortPath = append(shortPath, groupe[i])
+				}
+			}
 		}
 
-		// Sort the 2D slice by length of inner slices
-		sort.Slice(group, func(i, j int) bool {
-			return len(group[i]) < len(group[j])
-		})
-
-		// Find the shortest slice (only one)
-		shortestSlice := group[0]
-		result = append(result, [][]string{shortestSlice})
+		if len(shortPath) > 0 {
+			result = append(result, shortPath)
+		}
+		shortPath = [][]string{}
 	}
 
 	return result
+}
+
+func containsSlice(slice [][]string, item []string) bool {
+	for _, v := range slice {
+		if slices.Equal(v, item) {
+			return true
+		}
+	}
+	return false
 }
