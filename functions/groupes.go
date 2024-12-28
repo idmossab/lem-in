@@ -1,6 +1,7 @@
 package lemin
 
 import (
+	"fmt"
 	"slices"
 	"sort"
 )
@@ -9,13 +10,17 @@ import (
 func GroupPaths(paths [][]string) [][][]string {
 	var groups [][][]string
 	used := make(map[int]bool)
-
+	sort.Slice(paths, func(i, j int) bool {
+		return len(paths[i]) < len(paths[j])
+	})
+	fmt.Println("paths : ",paths)
 	for i, path := range paths {
 		if used[i] {
 			continue // Skip already grouped paths
 		}
-
+		fmt.Println("pathss",path)
 		currentGroup := [][]string{path}
+		
 		used[i] = true
 
 		for j, otherPath := range paths {
@@ -34,7 +39,9 @@ func GroupPaths(paths [][]string) [][][]string {
 		}
 		used = map[int]bool{}
 	}
-
+	sort.Slice(groups, func(i, j int) bool {
+		return len(groups[i][0]) < len(groups[j][0])
+	})
 	return groups
 }
 

@@ -1,0 +1,35 @@
+9
+##start
+richard 0 6
+gilfoyle 6 3
+erlich 9 6
+dinish 6 9
+jimYoung 11 7
+##end
+peter 14 6
+richard-dinish
+dinish-jimYoung
+richard-gilfoyle
+gilfoyle-peter
+gilfoyle-erlich
+richard-erlich
+erlich-jimYoung
+jimYoung-peter
+
+
+ [
+    [[richard gilfoyle peter] [richard dinish jimYoung peter]]
+    [[richard erlich gilfoyle peter] [richard dinish jimYoung peter]]
+    [[richard erlich jimYoung peter] [richard gilfoyle peter]]
+    [[richard gilfoyle erlich jimYoung peter]]
+    [[richard dinish jimYoung erlich gilfoyle peter]]
+ ]
+
+  [
+    [richard dinish jimYoung erlich gilfoyle peter]
+    [richard dinish jimYoung peter]
+    [richard gilfoyle peter]
+    [richard gilfoyle erlich jimYoung peter]
+    [richard erlich gilfoyle peter]
+    [richard erlich jimYoung peter]
+]

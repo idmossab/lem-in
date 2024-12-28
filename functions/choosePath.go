@@ -4,11 +4,9 @@ package lemin
 
 func ChooseGroupes(bestGrps [][][]string)[][][]string{
 	result :=[][][]string{}
-
+	
 	return result
 }
-
-
 
 
 
