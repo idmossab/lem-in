@@ -76,7 +76,6 @@ func isCompatible(group [][]string, path []string) bool {
 func hasCommonRooms(path1, path2 []string) bool {
 	nodes1 := path1[1 : len(path1)-1]
 	nodes2 := path2[1 : len(path2)-1]
-
 	for _, node := range nodes1 {
 		if slices.Contains(nodes2, node) {
 			return true
@@ -113,7 +112,6 @@ func areGroupsEqual(group1, group2 [][]string) bool {
 			return false
 		}
 	}
-
 	return true
 }
 

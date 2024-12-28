@@ -1,26 +1,26 @@
 package lemin
 
 import (
+	"fmt"
 	"sort"
 )
 
-func FilterShortestSlices(groupes [][][]string) [][][]string {
+func FilterShortestSlices(groupes [][][]string,ant int) [][][]string {
 	sort.Slice(groupes, func(i, j int) bool {
 		return len(groupes[i]) < len(groupes[j])
 	})
-
 	shortPath1 := [][][]string{}
 	shortPath2 := [][][]string{}
 	shortPath3 := [][][]string{}
 	shortPath4 := [][][]string{}
 	result := [][][]string{}
-	// fmt.Println("GRSS:", groupes)
+	//fmt.Println("GRSS:", groupes)
 	if len(groupes) == 1 {
+		fmt.Println("result==>:",groupes)
 		result = groupes
 		return result
 	}
-	for i := 0; i < len(groupes)-1; i++ {
-		if len(groupes[i]) == len(groupes[i+1]) {
+	for i := 0; i < len(groupes); i++ {
 			if len(groupes[i]) == 1 {
 				if !contains(shortPath1, groupes[i]) {
 					shortPath1 = append(shortPath1, groupes[i])
@@ -38,8 +38,10 @@ func FilterShortestSlices(groupes [][][]string) [][][]string {
 					shortPath4 = append(shortPath4, groupes[i])
 				}
 			}
-		}
 	}
+	fmt.Println("result==>:",shortPath1)
+	pf:=ChoosePath(shortPath1,ant)
+	fmt.Println("pf==>:",pf)
 	sort.Slice(shortPath1, func(i, j int) bool {
 		return len(shortPath1[i][0]) < len(shortPath1[j][0])
 	})
@@ -52,8 +54,8 @@ func FilterShortestSlices(groupes [][][]string) [][][]string {
 	sort.Slice(shortPath4, func(i, j int) bool {
 		return len(shortPath4[i][0]) < len(shortPath4[j][0])
 	})
-	if len(shortPath1) > 0 {
-		result = append(result, shortPath1[0])
+	if len(shortPath1) > 0  {
+		result = append(result, pf)
 	}
 	if len(shortPath2) > 0 {
 		result = append(result, shortPath2[0])
@@ -64,9 +66,9 @@ func FilterShortestSlices(groupes [][][]string) [][][]string {
 	if len(shortPath4) > 0 {
 		result = append(result, shortPath4[0])
 	}
-	// fmt.Println("shortPath1:", shortPath1)
-	// fmt.Println("shortPath2:", shortPath2)
-	// fmt.Println("shortPath3:", shortPath3)
+	//fmt.Println("shortPath1:", shortPath1)
+	//fmt.Println("shortPath2:", shortPath2)
+	//fmt.Println("shortPath3:", shortPath3)
 
 	return result
 }

@@ -1,8 +1,5 @@
 package lemin
 
-
-
-
 func ChoosePath(bestPaths [][][]string, ant int) [][]string {
 	pathFinal := [][]string{}
 

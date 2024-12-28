@@ -5,8 +5,8 @@ import (
 	"strings"
 )
 
-func SendAnt(groups [][][]string, ants int) ([][]string, []int) {
-	bestGroup := groups[0]
+func SendAnt(bestGroup [][]string, ants int) ([][]string, []int) {
+	fmt.Println("bestGroup",bestGroup)
 	antInPath := make([]int, len(bestGroup))
 	pathLengths := make([]int, len(bestGroup))
 
