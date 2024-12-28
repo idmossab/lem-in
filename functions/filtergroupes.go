@@ -1,7 +1,6 @@
 package lemin
 
 import (
-	"fmt"
 	"sort"
 )
 
@@ -15,7 +14,7 @@ func FilterShortestSlices(groupes [][][]string) [][][]string {
 	shortPath3 := [][][]string{}
 	shortPath4 := [][][]string{}
 	result := [][][]string{}
-	//fmt.Println("GRSS:", groupes)
+	// fmt.Println("GRSS:", groupes)
 	if len(groupes) == 1 {
 		result = groupes
 		return result
@@ -53,7 +52,7 @@ func FilterShortestSlices(groupes [][][]string) [][][]string {
 	sort.Slice(shortPath4, func(i, j int) bool {
 		return len(shortPath4[i][0]) < len(shortPath4[j][0])
 	})
-	if len(shortPath1) > 0  {
+	if len(shortPath1) > 0 {
 		result = append(result, shortPath1[0])
 	}
 	if len(shortPath2) > 0 {
@@ -65,9 +64,9 @@ func FilterShortestSlices(groupes [][][]string) [][][]string {
 	if len(shortPath4) > 0 {
 		result = append(result, shortPath4[0])
 	}
-	fmt.Println("shortPath1:", shortPath1)
-	fmt.Println("shortPath2:", shortPath2)
-	fmt.Println("shortPath3:", shortPath3)
+	// fmt.Println("shortPath1:", shortPath1)
+	// fmt.Println("shortPath2:", shortPath2)
+	// fmt.Println("shortPath3:", shortPath3)
 
 	return result
 }
