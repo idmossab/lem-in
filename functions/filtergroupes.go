@@ -15,7 +15,7 @@ func FilterShortestSlices(groupes [][][]string) [][][]string {
 	shortPath3 := [][][]string{}
 	shortPath4 := [][][]string{}
 	result := [][][]string{}
-	fmt.Println("GRSS:", groupes)
+	//fmt.Println("GRSS:", groupes)
 	if len(groupes) == 1 {
 		result = groupes
 		return result

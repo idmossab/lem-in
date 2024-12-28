@@ -1,7 +1,6 @@
 package lemin
 
 import (
-	"fmt"
 	"slices"
 	"sort"
 )
@@ -11,9 +10,16 @@ func GroupPaths(paths [][]string) [][][]string {
 	var groups [][][]string
 	used := make(map[int]bool)
 	sort.Slice(paths, func(i, j int) bool {
-		return len(paths[i]) < len(paths[j])
+		var lenI, lenJ int
+		for _, path := range paths[i] {
+			lenI += len(path) // Calculate total length of all paths in group i
+		}
+		for _, path := range paths[j] {
+			lenJ += len(path) // Calculate total length of all paths in group j
+		}
+		return lenI < lenJ // Sort by total length
 	})
-	fmt.Println("paths : ",paths)
+	// fmt.Println("paths : ",paths)
 	if len(paths) > 0 {
 		groups = append(groups, [][]string{paths[0]})
 		used[0] = true // Mark the first path as used
@@ -22,9 +28,9 @@ func GroupPaths(paths [][]string) [][][]string {
 		if used[i] {
 			continue // Skip already grouped paths
 		}
-		fmt.Println("pathss",path)
+		// fmt.Println("pathss",path)
 		currentGroup := [][]string{path}
-		
+
 		used[i] = true
 
 		for j, otherPath := range paths {
@@ -110,10 +116,10 @@ func areGroupsEqual(group1, group2 [][]string) bool {
 
 	return true
 }
+
 func SortByLength(slices [][]string) [][]string {
 	sort.Slice(slices, func(i, j int) bool {
 		return len(slices[i]) < len(slices[j])
 	})
 	return slices
 }
-
