@@ -14,6 +14,10 @@ func GroupPaths(paths [][]string) [][][]string {
 		return len(paths[i]) < len(paths[j])
 	})
 	fmt.Println("paths : ",paths)
+	if len(paths) > 0 {
+		groups = append(groups, [][]string{paths[0]})
+		used[0] = true // Mark the first path as used
+	}
 	for i, path := range paths {
 		if used[i] {
 			continue // Skip already grouped paths
@@ -34,13 +38,20 @@ func GroupPaths(paths [][]string) [][][]string {
 			}
 		}
 
-		if !groupExists(groups, currentGroup) {
+		if !groupExists(groups[1:], currentGroup) {
 			groups = append(groups, currentGroup)
 		}
 		used = map[int]bool{}
 	}
 	sort.Slice(groups, func(i, j int) bool {
-		return len(groups[i][0]) < len(groups[j][0])
+		var lenI, lenJ int
+		for _, path := range groups[i] {
+			lenI += len(path) // Calculate total length of all paths in group i
+		}
+		for _, path := range groups[j] {
+			lenJ += len(path) // Calculate total length of all paths in group j
+		}
+		return lenI < lenJ // Sort by total length
 	})
 	return groups
 }

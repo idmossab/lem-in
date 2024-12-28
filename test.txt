@@ -17,6 +17,14 @@ erlich-jimYoung
 jimYoung-peter
 
 
+  [
+    [richard dinish jimYoung erlich gilfoyle peter]
+    [richard dinish jimYoung peter]
+    [richard gilfoyle peter]
+    [richard gilfoyle erlich jimYoung peter]
+    [richard erlich gilfoyle peter]
+    [richard erlich jimYoung peter]
+]
  [
     [[richard gilfoyle peter] [richard dinish jimYoung peter]]
     [[richard erlich gilfoyle peter] [richard dinish jimYoung peter]]
@@ -25,11 +33,19 @@ jimYoung-peter
     [[richard dinish jimYoung erlich gilfoyle peter]]
  ]
 
-  [
-    [richard dinish jimYoung erlich gilfoyle peter]
-    [richard dinish jimYoung peter]
-    [richard gilfoyle peter]
-    [richard gilfoyle erlich jimYoung peter]
-    [richard erlich gilfoyle peter]
-    [richard erlich jimYoung peter]
+
+[
+    [[richard gilfoyle peter]]
+    [[richard dinish jimYoung peter] [richard erlich gilfoyle peter]]
+    [[richard erlich jimYoung peter]]
+    [[richard gilfoyle erlich jimYoung peter]]
+    [[richard dinish jimYoung erlich gilfoyle peter]]
+]
+
+[
+    [[richard gilfoyle peter]]
+    [[richard dinish jimYoung peter] [richard erlich gilfoyle peter]]
+    [[richard erlich jimYoung peter] [richard gilfoyle peter]]
+    [[richard gilfoyle erlich jimYoung peter]]
+    [[richard dinish jimYoung erlich gilfoyle peter]]
 ]
