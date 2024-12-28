@@ -53,7 +53,7 @@ func FilterShortestSlices(groupes [][][]string) [][][]string {
 	sort.Slice(shortPath4, func(i, j int) bool {
 		return len(shortPath4[i][0]) < len(shortPath4[j][0])
 	})
-	if len(shortPath1) > 0 {
+	if len(shortPath1) > 0 && len(shortPath2) == 0 && len(shortPath3) == 0&& len(shortPath4) == 0{
 		result = append(result, shortPath1[0])
 	}
 	if len(shortPath2) > 0 {
