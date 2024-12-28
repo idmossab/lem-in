@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"sort"
 )
+
 func FilterShortestSlices(groupes [][][]string) [][][]string {
 	sort.Slice(groupes, func(i, j int) bool {
 		return len(groupes[i]) < len(groupes[j])
@@ -15,30 +16,29 @@ func FilterShortestSlices(groupes [][][]string) [][][]string {
 	shortPath4 := [][][]string{}
 	result := [][][]string{}
 	fmt.Println("GRSS:", groupes)
-	if len(groupes)==1{
-		 result=groupes
-		 return result
+	if len(groupes) == 1 {
+		result = groupes
+		return result
 	}
 	for i := 0; i < len(groupes)-1; i++ {
 		if len(groupes[i]) == len(groupes[i+1]) {
-			if len(groupes[i])==1{
+			if len(groupes[i]) == 1 {
 				if !contains(shortPath1, groupes[i]) {
 					shortPath1 = append(shortPath1, groupes[i])
 				}
-			}else if len(groupes[i])==2{
+			} else if len(groupes[i]) == 2 {
 				if !contains(shortPath2, groupes[i]) {
 					shortPath2 = append(shortPath2, groupes[i])
 				}
-			}else if len(groupes[i])==3{
+			} else if len(groupes[i]) == 3 {
 				if !contains(shortPath3, groupes[i]) {
 					shortPath3 = append(shortPath3, groupes[i])
 				}
-			}else{
+			} else {
 				if !contains(shortPath4, groupes[i]) {
 					shortPath4 = append(shortPath4, groupes[i])
 				}
 			}
-			
 		}
 	}
 	sort.Slice(shortPath1, func(i, j int) bool {
@@ -53,7 +53,7 @@ func FilterShortestSlices(groupes [][][]string) [][][]string {
 	sort.Slice(shortPath4, func(i, j int) bool {
 		return len(shortPath4[i][0]) < len(shortPath4[j][0])
 	})
-	if len(shortPath1) > 0 && len(shortPath2) == 0 && len(shortPath3) == 0&& len(shortPath4) == 0{
+	if len(shortPath1) > 0  {
 		result = append(result, shortPath1[0])
 	}
 	if len(shortPath2) > 0 {

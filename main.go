@@ -24,6 +24,8 @@ func main() {
 	fmt.Println()
 	filterGr := sr.FilterShortestSlices(groupe)
 	fmt.Println("filter :", filterGr)
+	bestGr:=sr.ChoosePath(filterGr,antFarm.Ants)
+	fmt.Println("bestt :", bestGr)
 	// nbrAnt := antFarm.Ants
 	// fmt.Println(nbrAnt)
 	// antDistribution := sr.DistributeAnts(groupe, nbrAnt)
