@@ -1,6 +1,7 @@
 package lemin
 
 import (
+	"fmt"
 	"slices"
 	"sort"
 )
@@ -25,9 +26,11 @@ func GroupPaths(paths [][]string) [][][]string {
 		used[0] = true // Mark the first path as used
 	}
 	for i, path := range paths {
-		if used[i] {
+		fmt.Println("0",path)
+		if used[i] && len(path)>2{
 			continue // Skip already grouped paths
 		}
+		fmt.Println("1",path)
 		// fmt.Println("pathss",path)
 		currentGroup := [][]string{path}
 
@@ -74,6 +77,7 @@ func isCompatible(group [][]string, path []string) bool {
 
 // Check if two paths share room (excluding "start" and "end")
 func hasCommonRooms(path1, path2 []string) bool {
+	fmt.Println("hasroom",path1,path2)
 	nodes1 := path1[1 : len(path1)-1]
 	nodes2 := path2[1 : len(path2)-1]
 	for _, node := range nodes1 {
