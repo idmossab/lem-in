@@ -20,7 +20,7 @@ func main() {
 	// fmt.Println("All paths :", sr.SortByLength(sr.Paths))
 	//fmt.Println("path : ",sr.Paths)
 	groupe := sr.GroupPaths(sr.Paths)
-	fmt.Println("groupe", groupe)
+	//fmt.Println("groupe", groupe)
 	nbrAnt := antFarm.Ants
 	fmt.Println()
 	filterGr := sr.FilterShortestSlices(groupe,nbrAnt)

@@ -1,100 +1,93 @@
 package lemin
 
 import (
-	"fmt"
 	"sort"
 )
 
-func FilterShortestSlices(groupes [][][]string,ant int) [][][]string {
-	sort.Slice(groupes, func(i, j int) bool {
-		return len(groupes[i]) < len(groupes[j])
-	})
-	shortPath1 := [][][]string{}
-	shortPath2 := [][][]string{}
-	shortPath3 := [][][]string{}
-	shortPath4 := [][][]string{}
-	result := [][][]string{}
-	//fmt.Println("GRSS:", groupes)
-	if len(groupes) == 1 {
-		fmt.Println("result==>:",groupes)
-		result = groupes
-		return result
-	}
-	for i := 0; i < len(groupes); i++ {
-			if len(groupes[i]) == 1 {
-				if !contains(shortPath1, groupes[i]) {
-					shortPath1 = append(shortPath1, groupes[i])
-				}
-			} else if len(groupes[i]) == 2 {
-				if !contains(shortPath2, groupes[i]) {
-					shortPath2 = append(shortPath2, groupes[i])
-				}
-			} else if len(groupes[i]) == 3 {
-				if !contains(shortPath3, groupes[i]) {
-					shortPath3 = append(shortPath3, groupes[i])
-				}
-			} else {
-				if !contains(shortPath4, groupes[i]) {
-					shortPath4 = append(shortPath4, groupes[i])
-				}
-			}
-	}
-	fmt.Println("result==>:",shortPath1)
-	pf:=ChoosePath(shortPath1,ant)
-	fmt.Println("pf==>:",pf)
-	sort.Slice(shortPath1, func(i, j int) bool {
-		return len(shortPath1[i][0]) < len(shortPath1[j][0])
-	})
-	sort.Slice(shortPath2, func(i, j int) bool {
-		return len(shortPath2[i][0]) < len(shortPath2[j][0])
-	})
-	sort.Slice(shortPath3, func(i, j int) bool {
-		return len(shortPath3[i][0]) < len(shortPath3[j][0])
-	})
-	sort.Slice(shortPath4, func(i, j int) bool {
-		return len(shortPath4[i][0]) < len(shortPath4[j][0])
-	})
-	if len(shortPath1) > 0  {
-		result = append(result, pf)
-	}
-	if len(shortPath2) > 0 {
-		result = append(result, shortPath2[0])
-	}
-	if len(shortPath3) > 0 {
-		result = append(result, shortPath3[0])
-	}
-	if len(shortPath4) > 0 {
-		result = append(result, shortPath4[0])
-	}
-	//fmt.Println("shortPath1:", shortPath1)
-	//fmt.Println("shortPath2:", shortPath2)
-	//fmt.Println("shortPath3:", shortPath3)
+// FilterShortestPaths filters and organizes groups of paths by their lengths
+func FilterShortestSlices(groups [][][]string, ant int) [][][]string {
+    // Handle single group case
+    if len(groups) <= 1 {
+        return groups
+    }
 
-	return result
+    // Sort groups by length for consistent processing
+    sortGroupsByLength(groups)
+
+    // Store unique paths by their length
+    pathsByLength := make(map[int][][][]string)
+    
+    // Group paths by their length
+    for _, group := range groups {
+        length := len(group)
+        // Only add if this group is unique for its length
+        if !containsGroup(pathsByLength[length], group) {
+            pathsByLength[length] = append(pathsByLength[length], group)
+        }
+    }
+
+    // Build result array with shortest path from each length category
+    return buildResultArray(pathsByLength)
+}
+// sortGroupsByLength sorts groups based on their length
+func sortGroupsByLength(groups [][][]string) {
+	sort.Slice(groups, func(i, j int) bool {
+		return len(groups[i]) < len(groups[j])
+	})
 }
 
-func contains(groupList [][][]string, group [][]string) bool {
-	for _, item := range groupList {
-		if equalSlices(item, group) {
+// containsGroup checks if a group already exists in the group list
+func containsGroup(groupList [][][]string, target [][]string) bool {
+	for _, group := range groupList {
+		if areGroupsEqual1(group, target) {
 			return true
 		}
 	}
 	return false
 }
 
-func equalSlices(a, b [][]string) bool {
-	if len(a) != len(b) {
+// areGroupsEqual checks if two groups have identical contents
+func areGroupsEqual1(group1, group2 [][]string) bool {
+	if len(group1) != len(group2) {
 		return false
 	}
-	for i := range a {
-		if len(a[i]) != len(b[i]) {
+
+	for i := range group1 {
+		if len(group1[i]) != len(group2[i]) {
 			return false
 		}
-		for j := range a[i] {
-			if a[i][j] != b[i][j] {
+		for j := range group1[i] {
+			if group1[i][j] != group2[i][j] {
 				return false
 			}
 		}
 	}
 	return true
+}
+
+// buildResultArray constructs the final result array from the path map
+func buildResultArray(pathsByLength map[int][][][]string) [][][]string {
+	var result [][][]string
+
+	// Get all lengths and sort them
+	lengths := getLengths(pathsByLength)
+	sort.Ints(lengths)
+
+	// Add shortest path from each length category
+	for _, length := range lengths {
+		if paths := pathsByLength[length]; len(paths) > 0 {
+			result = append(result, paths[0])
+		}
+	}
+
+	return result
+}
+
+// getLengths extracts and returns all lengths from the path map
+func getLengths(pathsByLength map[int][][][]string) []int {
+	var lengths []int
+	for length := range pathsByLength {
+		lengths = append(lengths, length)
+	}
+	return lengths
 }
